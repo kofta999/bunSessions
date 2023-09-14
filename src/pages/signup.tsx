@@ -5,7 +5,7 @@ export function SignUp(errorMessage?: string) {
   return (
     <Layout>
       <h1>Sign Up</h1>
-      {errorMessage}
+      <h2>{errorMessage}</h2>
       <form action="/signup" method="post">
         <div class="grid">
           <label htmlFor="name">Name:</label>

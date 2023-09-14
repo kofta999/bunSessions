@@ -4,6 +4,7 @@ import storeFunc from "connect-mongodb-session";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import { authRouter } from "./routes/auth";
+import flash from "connect-flash"
 
 const app = express();
 const MongoDBStore = storeFunc(session);
@@ -22,6 +23,8 @@ app.use(
     store: store,
   })
 );
+
+app.use(flash())
 
 app.use("/", authRouter);
 

@@ -24,7 +24,7 @@ export function authenticateUser(
 }
 
 export function getSignUp(req: Request, res: Response) {
-  res.send(SignUp());
+  res.send(SignUp(req.flash("error")[0]));
 }
 
 export async function postSignUp(req: Request, res: Response) {
@@ -33,7 +33,8 @@ export async function postSignUp(req: Request, res: Response) {
   const hashedPassword = await Bun.password.hash(req.body.password);
 
   if (await User.findOne({ email: email })) {
-    res.send(SignUp("User already exists"));
+    req.flash("error", "User already exists");
+    res.redirect("/signup");
   } else {
     const user = new User({
       name,
@@ -47,7 +48,7 @@ export async function postSignUp(req: Request, res: Response) {
 }
 
 export function getLogin(req: Request, res: Response) {
-  res.send(Login());
+  res.send(Login(req.flash("error")[0]));
 }
 
 export async function postLogin(req: Request, res: Response) {
@@ -61,7 +62,8 @@ export async function postLogin(req: Request, res: Response) {
     session.save((err) => console.log(err));
     res.redirect("/");
   } else {
-    res.send(Login("Wrong email or password"));
+    req.flash("error", "Wrong email or password")
+    res.redirect("/login");
   }
 }
 
